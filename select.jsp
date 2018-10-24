@@ -4,19 +4,28 @@
     <%@page import="java.sql.PreparedStatement" %>
     <%@page import="java.sql.DriverManager" %>
       <%@page import="java.sql.ResultSet" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<h1>회원목록조회</h1>
+<%
+String id=(String) session.getAttribute("id");
+String level=(String) session.getAttribute("level");
+if(id==null || !level.equals("9")){
+	response.sendRedirect("main");
+   return;	
+}
+%>
+<h1>전체회원조회</h1>
 <hr>
 <table border="1">
  <tr>
- <th>아이디</th><th>패스워드</th><th>이름</th><th>나이</th><th>성별</th><th>이메일</th><th>가입날짜</th>
+ <th>아이디</th><th>패스워드</th><th>이름</th><th>나이</th><th>성별</th><th>이메일</th><th>가입날짜</th><th>등급</th>
  </tr>
+
 <%
 //DB연결정보
 String url="jdbc:mysql://localhost/register?serverTimezone=UTC";
@@ -48,9 +57,19 @@ while(rs.next()){
 	<td><%=rs.getString("gender") %></td>
 	<td><%=rs.getString("email") %></td>			
 	<td><%=rs.getString("reg_date") %></td>
+	<td><%=rs.getString("level") %></td>
     </tr>
-    <%	
+    
+    <%
 }
+%>
+
+</table>
+<input type="button" value="회원수정" onclick="location.href=''">
+<input type="button" value="마이페이지" onclick="location.href='loginMain.jsp'">
+<%
+
+
 rs.close();
 pstmt.close();
 con.close();

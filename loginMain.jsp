@@ -10,7 +10,8 @@
 <%
 //세션값 가져오기 (Object형으로 가져오기 때문에 다운캐스팅)
 
-String id =(String) session.getAttribute("id");//session 내장객체 getattribute는 메소드 <==
+String id =(String) session.getAttribute("id");
+String level=(String) session.getAttribute("level");//session 내장객체 getattribute는 메소드 <==
    if(id==null){
 	   response.sendRedirect("loginForm.jsp");
 	   return;
@@ -29,8 +30,11 @@ String id =(String) session.getAttribute("id");//session 내장객체 getattribu
 <a href="delete.jsp">회원정보삭제</a><br>
 
 <%
-if(id.equals("admin")){
+
+
+if(level.equals("9")){
 	%>
+	마스터계정
 	<a href="select.jsp">전체회원목록</a>
 	<% 
 }

@@ -37,7 +37,7 @@ pstmt=con.prepareStatement(sql);
 pstmt.setString(1,id);
 pstmt.setString(2,passwd);
 pstmt.setString(3,name);
-pstmt.setTimestamp(4,reg_date);
+pstmt.setTimestamp(7,reg_date);
 
 
 pstmt.executeUpdate();

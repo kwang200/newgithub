@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.sql.*"%>
-    <%@page import="jspexample.MYMySQL" %>
 
 <%
 request.setCharacterEncoding("utf-8");
@@ -16,14 +15,23 @@ String email=request.getParameter("email");
 //날짜
 Timestamp reg_date = new Timestamp(System.currentTimeMillis());
 
+
+String url ="jdbc:mysql://localhost/register?serverTimezone=UTC";
+
+
+String user = "root1";
+
+
+String pwd="1234";
+
 //jdbc참조변수
 Connection con =null;
 PreparedStatement pstmt =null;
 
 //1.드라이버 로딩
-Class.forName(MYMySQL.Driver_Name);
+Class.forName("com.mysql.cj.jdbc.Driver");
 //2.DB연결
-con = DriverManager.getConnection(MYMySQL.url,MYMySQL.user,MYMySQL.pwd);
+con = DriverManager.getConnection(url,user,pwd);
 
 String sql="INSERT INTO register(id,passwd, name, age, gender,email,reg_date) VALUES(?,?,?,?,?,?,?)";
 pstmt=con.prepareStatement(sql);

@@ -1,24 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" import="java.sql.*"%>
- <%@page import="jspexample.MYMySQL" %>  
- 
+
  <%
  //폼 ID PASSWD 가져오기
  String id = request.getParameter("id");
  String passwd = request.getParameter("passwd");
  
+ 
+
+String url ="jdbc:mysql://localhost/register?serverTimezone=UTC";
+
+
+String user = "root1";
+
+
+String pwd="1234";
  //JDBC참조변수
  Connection con =null;
  PreparedStatement pstmt =null;
  ResultSet rs= null;
  
  //1. 드라이버 로딩
- Class.forName(MYMySQL.Driver_Name);
+ Class.forName("com.mysql.cj.jdbc.Driver");
  //2.DB연결
- con=DriverManager.getConnection(MYMySQL.url,MYMySQL.user,MYMySQL.pwd);
+ con=DriverManager.getConnection(url,user,pwd);
  
  //3. ID에 해당하는 passwd 가져오기
- String sql ="SELECT passwd FROM register WHERE id=?";
+ String sql ="SELECT passwd,level FROM register WHERE id=?";
  pstmt=con.prepareStatement(sql);
  pstmt.setString(1,id); //id를 입력시켜야 pwd가져옴
  
@@ -34,6 +42,7 @@ if(rs.next()){
 	 if(passwd.equals(rs.getString("passwd"))){
 		 //로그인 인증 main.jsp로이동
 		 session.setAttribute("id", id);
+		 session.setAttribute("level", 	rs.getString("level"));
 		 response.sendRedirect("loginMain.jsp");//로그인인증이된 main
 		 //여기서 이해하는게 중요 form html안에서 넘어온값들은 request.getParameter로
 		 //입력된값을 여기 id로 대입시켜똑같이사용가능 그러면 jsp의 데이터에있는 id는 또다른
